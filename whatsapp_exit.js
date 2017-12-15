@@ -11,4 +11,4 @@ var upEvent = generateEvent("mouseup");
 var downEvent = generateEvent("mousedown");
 
 // Open chat menu after selecting the chat
-function clickChatMenu(){ $(".pane-chat-controls > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)").click(); };
+function clickChatMenu(){ document.querySelector("div.pane-chat-controls div[title='Menu']").dispatchEvent(downEvent); };
