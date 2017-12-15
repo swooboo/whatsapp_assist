@@ -139,5 +139,22 @@ function postShamingMessage(chatTitle){
 		return false;
 	}
 
-	// Need to scroll up a couple of times so we have a lot of messages
+	// Need to scroll up a couple of times to have enough messages, user responsibility
+	var messages = getAllMessages();	// Getting the earliest date
+	var i = 0;
+	var earliestDate = null;
+	while(!earliestDate && i < messages.length)
+		earliestDate = messages[i++].date;	// While there's null, there are no dates, finding the first valid one.
+	// Checking that not everything is null
+	if(i === messages.length){
+		console.log("All messages don't have a date, critical error.");
+		return false;
+	}
+
+	var yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);	// Exactly 24 hours ago
+	if(earliestDate > yesterday){	// Earliest date is less than 24 hours ago, not enough messages
+		console.log("Earliest message is less than 24 hours old, please scroll the chat up for more messages.");
+		return false;
+	}
 }
