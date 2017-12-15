@@ -47,8 +47,11 @@ function getAllMessages(){
 		else{
 			author = el.querySelector(".emojitext.emoji-text-clickable").innerText;	// Author is conveniently placed
 			dateAuthor = el.querySelector(".has-author").getAttribute("data-pre-plain-text");	// Here, date and author are together, will separate
-			dateText = /\[(.*?)\]/.exec(dateAuthor)[1];
-			date = Date(dateText);
+			regexMatch = /\[(.*?)\]/.exec(dateAuthor);	// Trying to match the regex. If we fail, it's a deleted message and we will populate the date from previous message
+			if(regexMatch === null)
+				date = null;
+			else				
+				date = Date(regexMatch[0]);
 		}
 
 		var message;	// In case of a picture, message body could be null
@@ -68,15 +71,22 @@ function getAllMessages(){
 	});
 
 	// Need to populate the nulls. Each null means it's a continuation message, so the previous message's data is good for this one.
-	var prevMessage = paneChatMessages[0];	// Take the first one
+	var prevAuthor = paneChatMessages[0].author;	// Take the first one
+	var prevDate = paneChatMessages[0].Date;	// Take the first one
 	paneChatMessages.forEach(function(message){
 		if(message.author === null){	// Take the previous message
-			message.author = prevMessage.author;
-			message.date = prevMessage.date;
+			message.author = prevAuthor;
 		}
 		else{
-			prevMessage = message;
+			prevAuthor = message.author;
 		}
+
+		if(message.date === null){	// Take the previous message
+			message.date = prevDate;
+		}
+		else{
+			prevDate = message.date;
+		}		
 	});
 	return paneChatMessages;
 }
