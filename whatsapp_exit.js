@@ -107,6 +107,19 @@ function getAuthorCount(messages){
 
 // Yesterday's top hitter needs to be recognized
 function generateTopHitterMessage(){
-	var authorCount = getAuthorCount(getAllMessages());
+	var yesterday = new Date();	// Now
+	yesterday.setDate(yesterday.getDate() - 1);	// Taking exactly 1 day ago from now
 
+	// Filter the messages to be left with only the last 24h
+	lastMessages = getAllMessages().filter(m => m.date > yesterday);
+
+	authorCount = Object.entries(getAuthorCount(lastMessages));	// The authors and their counters, in an Array of entries
+	topHitter = authorCount.reduce(function(acc, cur){	// Finding the maximum using reduce
+		return cur[1]>acc[1] ? cur : acc;
+	});
+	totalMessages = authorCount.reduce(function(acc, cur){	// Finding the total number of messages
+		return acc + cur[1];
+	}, 0);
+
+	return "סטטיסטיקת חפירות: ביממה האחרונה נשלחו *" + totalMessages +"* הודעות. בראש הרשימה - @" + topHitter[0] + " עם *" + topHitter[1] + "* הודעות.";
 }
