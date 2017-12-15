@@ -51,9 +51,18 @@ function getAllMessages(){
 			date = Date(dateText);
 		}
 
+		var message;	// In case of a picture, message body could be null
+		if(!el.querySelector(".emojitext.selectable-text.copyable-text")){
+			body = null;
+		}
+		else {
+			body = el.querySelector(".emojitext.selectable-text.copyable-text").innerText;
+		}
+
 		var message = {
 			author: author,
-			date: date
+			date: date,
+			body: body,
 		};
 		return message;
 	});
