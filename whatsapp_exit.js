@@ -9,6 +9,7 @@ function generateEvent(type){
 
 var upEvent = generateEvent("mouseup");
 var downEvent = generateEvent("mousedown");
+var allChats = Array.from(document.querySelectorAll(".chat"));
 
 // Open chat menu after selecting the chat
 function clickChatMenu(){ document.querySelector("div.pane-chat-controls div[title='Menu']").dispatchEvent(downEvent); };
