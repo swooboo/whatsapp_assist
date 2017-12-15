@@ -35,7 +35,7 @@ function clickTargetChat(targetChatTitle){
 }
 
 function getAllMessages(){
-	paneChatMessagesNodes = Array.from(document.querySelectorAll(".pane-chat-msgs .msg"));	// These are all the available messages in the chat
+	paneChatMessagesNodes = Array.from(document.querySelectorAll(".pane-chat-msgs .msg:not(.msg-system)"));	// These are all the available messages in the chat
 	paneChatMessages = paneChatMessagesNodes.map(function(el){	// Map each message so there's only the text, author and date
 		
 		var author;	// Checking if the message has author and date
