@@ -3,7 +3,7 @@ function generateEvent(type){
 	return new MouseEvent(type, {
 		'view': window,
 		'bubbles': true,
-		'cancelable': true
+		'cancelable': false
 	})
 }
 
