@@ -102,3 +102,9 @@ function getAuthorCount(messages){
 	});
 	return authorCount;
 }
+
+// Yesterday's top hitter needs to be recognized
+function generateTopHitterMessage(){
+	var authorCount = getAuthorCount(getAllMessages());
+
+}
