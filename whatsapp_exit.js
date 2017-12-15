@@ -50,8 +50,10 @@ function getAllMessages(){
 			regexMatch = /\[(.*?)\]/.exec(dateAuthor);	// Trying to match the regex. If we fail, it's a deleted message and we will populate the date from previous message
 			if(regexMatch === null)
 				date = null;
-			else				
-				date = Date(regexMatch[0]);
+			else{	// Parsing the date further, no choice but to use regex
+				d = /(\d+):(\d+), (\d+)\/(\d+)\/(\d+)/.exec(regexMatch);	// Reference - 10:38, 12/15/2017
+				date = new Date(d[5], d[3]-1, d[4], d[1], d[2]);	// Adjusting the indices and also month is 0-based, so -1
+			}
 		}
 
 		var message;	// In case of a picture, message body could be null
