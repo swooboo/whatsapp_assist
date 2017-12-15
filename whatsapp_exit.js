@@ -33,3 +33,29 @@ function clickTargetChat(targetChatTitle){
 		return true;
 	}
 }
+
+function getAllMessages(){
+	paneChatMessagesNodes = Array.from(document.querySelectorAll(".pane-chat-msgs .msg"));	// These are all the available messages in the chat
+	paneChatMessages = paneChatMessagesNodes.map(function(el){	// Map each message so there's only the text, author and date
+		
+		var author;	// Checking if the message has author and date
+		var date;
+		if(!el.querySelector(".has-author .emojitext.emoji-text-clickable")){
+			author = null;	// We will populate the nulls later
+			date = null;
+		}
+		else{
+			author = el.querySelector(".emojitext.emoji-text-clickable").innerText;	// Author is conveniently placed
+			dateAuthor = el.querySelector(".has-author").getAttribute("data-pre-plain-text");	// Here, date and author are together, will separate
+			dateText = /\[(.*?)\]/.exec(dateAuthor)[1];
+			date = Date(dateText);
+		}
+
+		var message = {
+			author: author,
+			date: date
+		};
+		return message;
+	});
+	return paneChatMessages;
+}
