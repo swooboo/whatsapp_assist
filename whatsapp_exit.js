@@ -157,4 +157,24 @@ function postShamingMessage(chatTitle){
 		console.log("Earliest message is less than 24 hours old, please scroll the chat up for more messages.");
 		return false;
 	}
+
+	return postMessage(generateTopHitterMessage());	// Posting the message
+}
+
+// Posting a message
+function postMessage(message){
+	var input = document.querySelector("#main .input-container .pluggable-input-body");	// This is the input box
+	input.innerHTML = message;
+
+	// Need to refresh the input
+	uievent = new UIEvent("input", {
+		view: window,
+		bubbles: true,
+		cancelable: false,
+		detail: 1
+	});
+	input.dispatchEvent(uievent);
+
+	var sendButton = document.querySelector("button.compose-btn-send");	// This is the 'send' button
+	//sendButton.dispatchEvent(downEvent);
 }
