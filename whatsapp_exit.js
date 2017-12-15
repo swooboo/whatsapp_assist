@@ -19,7 +19,7 @@ function clickTargetChat(targetChatTitle){
 	console.log("Targeting chat title '" + targetChatTitle +"'");
 	
 	// Will take the first one that has a title match
-	targetChat = allChats.filter(function(el){
+	var targetChat = allChats.filter(function(el){
 		return el.querySelector(".chat-body>.chat-main>.chat-title>.emojitext").innerText.match(targetChatTitle);
 	})[0];
 
@@ -35,8 +35,8 @@ function clickTargetChat(targetChatTitle){
 }
 
 function getAllMessages(){
-	paneChatMessagesNodes = Array.from(document.querySelectorAll(".pane-chat-msgs .msg:not(.msg-system)"));	// These are all the available messages in the chat
-	paneChatMessages = paneChatMessagesNodes.map(function(el){	// Map each message so there's only the text, author and date
+	var paneChatMessagesNodes = Array.from(document.querySelectorAll(".pane-chat-msgs .msg:not(.msg-system)"));	// These are all the available messages in the chat
+	var paneChatMessages = paneChatMessagesNodes.map(function(el){	// Map each message so there's only the text, author and date
 		
 		var author;	// Checking if the message has author and date
 		var date;
@@ -47,11 +47,11 @@ function getAllMessages(){
 		else{
 			author = el.querySelector(".emojitext.emoji-text-clickable").innerText;	// Author is conveniently placed
 			dateAuthor = el.querySelector(".has-author").getAttribute("data-pre-plain-text");	// Here, date and author are together, will separate
-			regexMatch = /\[(.*?)\]/.exec(dateAuthor);	// Trying to match the regex. If we fail, it's a deleted message and we will populate the date from previous message
+			var regexMatch = /\[(.*?)\]/.exec(dateAuthor);	// Trying to match the regex. If we fail, it's a deleted message and we will populate the date from previous message
 			if(regexMatch === null)
 				date = null;
 			else{	// Parsing the date further, no choice but to use regex
-				d = /(\d+):(\d+), (\d+)\/(\d+)\/(\d+)/.exec(regexMatch);	// Reference - 10:38, 12/15/2017
+				var d = /(\d+):(\d+), (\d+)\/(\d+)\/(\d+)/.exec(regexMatch);	// Reference - 10:38, 12/15/2017
 				date = new Date(d[5], d[3]-1, d[4], d[1], d[2]);	// Adjusting the indices and also month is 0-based, so -1
 			}
 		}
@@ -95,7 +95,7 @@ function getAllMessages(){
 
 // Will count how many messages each author has
 function getAuthorCount(messages){
-	authorCount = {};
+	var authorCount = {};
 	messages.forEach(function(message){
 		if(!authorCount[message.author])
 			authorCount[message.author] = 1;	// First message
@@ -111,13 +111,13 @@ function generateTopHitterMessage(){
 	yesterday.setDate(yesterday.getDate() - 1);	// Taking exactly 1 day ago from now
 
 	// Filter the messages to be left with only the last 24h
-	lastMessages = getAllMessages().filter(m => m.date > yesterday);
+	var lastMessages = getAllMessages().filter(m => m.date > yesterday);
 
-	authorCount = Object.entries(getAuthorCount(lastMessages));	// The authors and their counters, in an Array of entries
-	topHitter = authorCount.reduce(function(acc, cur){	// Finding the maximum using reduce
+	var authorCount = Object.entries(getAuthorCount(lastMessages));	// The authors and their counters, in an Array of entries
+	var topHitter = authorCount.reduce(function(acc, cur){	// Finding the maximum using reduce
 		return cur[1]>acc[1] ? cur : acc;
 	});
-	totalMessages = authorCount.reduce(function(acc, cur){	// Finding the total number of messages
+	var totalMessages = authorCount.reduce(function(acc, cur){	// Finding the total number of messages
 		return acc + cur[1];
 	}, 0);
 
