@@ -123,3 +123,21 @@ function generateTopHitterMessage(){
 
 	return "סטטיסטיקת חפירות: ביממה האחרונה נשלחו *" + totalMessages +"* הודעות. בראש הרשימה - @" + topHitter[0] + " עם *" + topHitter[1] + "* הודעות.";
 }
+
+// Enter the chat named 'chatTitle' and post the top hitter message there.
+function postShamingMessage(chatTitle){
+	// Failsafe mechanism - chat title has to be at least 7 letters long to avoid accidental messages
+	var minLength=7;
+	if (chatTitle.length < minLength){
+		console.log("Chat title provided is too short, please provide a title longer than " + minLength + " .");
+		return false;
+	}
+
+	var result = clickTargetChat(chatTitle);	// Enter the chat
+	if(!result){
+		console.log("Couldn't post the message because target chat couldn't be entered.");
+		return false;
+	}
+
+	// Need to scroll up a couple of times so we have a lot of messages
+}
