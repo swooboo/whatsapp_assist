@@ -66,6 +66,18 @@ function getAllMessages(){
 		};
 		return message;
 	});
+
+	// Need to populate the nulls. Each null means it's a continuation message, so the previous message's data is good for this one.
+	var prevMessage = paneChatMessages[0];	// Take the first one
+	paneChatMessages.forEach(function(message){
+		if(message.author === null){	// Take the previous message
+			message.author = prevMessage.author;
+			message.date = prevMessage.date;
+		}
+		else{
+			prevMessage = message;
+		}
+	});
 	return paneChatMessages;
 }
 
