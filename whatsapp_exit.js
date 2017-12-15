@@ -71,5 +71,12 @@ function getAllMessages(){
 
 // Will count how many messages each author has
 function getAuthorCount(messages){
-
+	authorCount = {};
+	messages.forEach(function(message){
+		if(!authorCount[message.author])
+			authorCount[message.author] = 1;	// First message
+		else
+			authorCount[message.author]++;	// Increment the counter
+	});
+	return authorCount;
 }
