@@ -68,3 +68,8 @@ function getAllMessages(){
 	});
 	return paneChatMessages;
 }
+
+// Will count how many messages each author has
+function getAuthorCount(messages){
+
+}
