@@ -207,5 +207,24 @@ function assertCurrentChat(chatTitle){
 /* This will post a message each `timeInterval` seconds. `messageGenerator` is a function that should return a string,
 	and it's called each time a message should be posted */
 function postAnnoyingMessages(chatTitle, messageGenerator, timeInterval){
+	// Failsafe mechanism - chat title has to be at least 7 letters long to avoid accidental messages
+	var minLength=7;
+	if (chatTitle.length < minLength){
+		console.log("Chat title provided is too short, please provide a title longer than " + minLength + " .");
+		return false;
+	}
 
+	var result = clickTargetChat(chatTitle);	// Enter the chat
+	if(!result){
+		console.log("Couldn't post the message because target chat couldn't be entered.");
+		return false;
+	}
+
+	// Making sure the current chat matches chatTitle to avoid errors
+	if(!assertCurrentChat(chatTitle)){
+		console.log("Current chat doesn't match '" + chatTitle + "', will not post shaming message.");
+		return false;
+	}
+
+	return true;
 }
