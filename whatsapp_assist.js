@@ -180,3 +180,20 @@ function postMessage(message, doSend=false){
 		sendButton.dispatchEvent(downEvent);
 	}
 }
+
+// Assert that the current active chat contains chatTitle - to avoid posting in a wrong chat
+function assertCurrentChat(chatTitle){
+	if(!chatTitle || chatTitle==""){	// Shouldn't check against empty string or null
+		console.log("assertCurrentChat: parameter chatTitle is null or empty, which is invalid.");
+		return false;
+	}
+
+	// Current chat title
+	var currentChatTitle = document.querySelector("#main .chat-main .chat-title span").title;
+	if(currentChatTitle.match(chatTitle)){
+		console.log("assertCurrentChat: current title '" + currentChatTitle + "' matches requested '" + chatTitle +"'");
+		return true;
+	}
+
+	return false;	// In any other case, fail
+}
