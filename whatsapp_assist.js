@@ -203,3 +203,9 @@ function assertCurrentChat(chatTitle){
 
 	return false;	// In any other case, fail
 }
+
+/* This will post a message each `timeInterval` seconds. `messageGenerator` is a function that should return a string,
+	and it's called each time a message should be posted */
+function postAnnoyingMessages(chatTitle, messageGenerator, timeInterval){
+
+}
