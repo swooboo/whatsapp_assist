@@ -162,7 +162,7 @@ function postShamingMessage(chatTitle){
 }
 
 // Posting a message
-function postMessage(message){
+function postMessage(message, doSend=false){
 	var input = document.querySelector("#main .input-container .pluggable-input-body");	// This is the input box
 	input.innerHTML = message;
 
@@ -175,6 +175,8 @@ function postMessage(message){
 	});
 	input.dispatchEvent(uievent);
 
-	var sendButton = document.querySelector("button.compose-btn-send");	// This is the 'send' button
-	//sendButton.dispatchEvent(downEvent);
+	if(doSend){
+		var sendButton = document.querySelector("button.compose-btn-send");	// This is the 'send' button
+		sendButton.dispatchEvent(downEvent);
+	}
 }
