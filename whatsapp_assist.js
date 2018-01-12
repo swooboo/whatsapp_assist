@@ -226,5 +226,17 @@ function postAnnoyingMessages(chatTitle, messageGenerator, timeInterval){
 		return false;
 	}
 
+	var annoyingMessagesInterval = window.setInterval(function(){
+		if(assertCurrentChat(chatTitle)){	// Still in the right chat
+			var annoyingMessage = messageGenerator();
+			console.log("Posting the annoying message '" + annoyingMessage + "' to '" + chatTitle +"'");
+			postMessage(annoyingMessage);
+		} else {
+			console.log("Not in chat '" + chatTitle +"' any more, stopping the annoying messages to avoid infinite loops.");
+			window.clearInterval(annoyingMessagesInterval);
+		}
+
+	}, timeInterval);
+
 	return true;
 }
