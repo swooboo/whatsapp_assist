@@ -139,6 +139,12 @@ function postShamingMessage(chatTitle){
 		return false;
 	}
 
+	// Making sure the current chat matches chatTitle to avoid errors
+	if(!assertCurrentChat(chatTitle)){
+		console.log("Current chat doesn't match '" + chatTitle + "', will not post shaming message.");
+		return false;
+	}
+
 	// Need to scroll up a couple of times to have enough messages, user responsibility
 	var messages = getAllMessages();	// Getting the earliest date
 	var i = 0;
