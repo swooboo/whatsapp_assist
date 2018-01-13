@@ -9,6 +9,7 @@ function generateEvent(type){
 
 var upEvent = generateEvent("mouseup");
 var downEvent = generateEvent("mousedown");
+var clickEvent = generateEvent("click");
 var allChats = Array.from(document.querySelectorAll(".chat"));
 
 // Open chat menu after selecting the chat
@@ -183,7 +184,7 @@ function postMessage(message, doSend=false){
 
 	if(doSend){
 		var sendButton = document.querySelector("button.compose-btn-send");	// This is the 'send' button
-		sendButton.dispatchEvent(downEvent);
+		sendButton.dispatchEvent(clickEvent);
 	}
 }
 
