@@ -231,7 +231,7 @@ function postAnnoyingMessages(chatTitle, messageGenerator, timeInterval){
 		if(assertCurrentChat(chatTitle)){	// Still in the right chat
 			var annoyingMessage = messageGenerator();	// Getting the message
 			console.log("Posting the annoying message '" + annoyingMessage + "' to '" + chatTitle +"'");
-			postMessage(annoyingMessage /*, true/**/);	// Uncomment this to really send messages
+			postMessage(annoyingMessage , true/**/);	// Comment/uncomment this to really send messages
 		} else {
 			console.log("Not in chat '" + chatTitle +"' any more, stopping the annoying messages to avoid infinite loops.");
 			window.clearInterval(annoyingMessagesInterval);
