@@ -9,6 +9,7 @@ function generateEvent(type){
 
 var upEvent = generateEvent("mouseup");
 var downEvent = generateEvent("mousedown");
+var clickEvent = generateEvent("click");
 var allChats = Array.from(document.querySelectorAll(".chat"));
 
 // Open chat menu after selecting the chat
@@ -139,6 +140,12 @@ function postShamingMessage(chatTitle){
 		return false;
 	}
 
+	// Making sure the current chat matches chatTitle to avoid errors
+	if(!assertCurrentChat(chatTitle)){
+		console.log("Current chat doesn't match '" + chatTitle + "', will not post shaming message.");
+		return false;
+	}
+
 	// Need to scroll up a couple of times to have enough messages, user responsibility
 	var messages = getAllMessages();	// Getting the earliest date
 	var i = 0;
@@ -162,7 +169,7 @@ function postShamingMessage(chatTitle){
 }
 
 // Posting a message
-function postMessage(message){
+function postMessage(message, doSend=false){
 	var input = document.querySelector("#main .input-container .pluggable-input-body");	// This is the input box
 	input.innerHTML = message;
 
@@ -175,6 +182,62 @@ function postMessage(message){
 	});
 	input.dispatchEvent(uievent);
 
-	var sendButton = document.querySelector("button.compose-btn-send");	// This is the 'send' button
-	//sendButton.dispatchEvent(downEvent);
+	if(doSend){
+		var sendButton = document.querySelector("button.compose-btn-send");	// This is the 'send' button
+		sendButton.dispatchEvent(clickEvent);
+	}
+}
+
+// Assert that the current active chat contains chatTitle - to avoid posting in a wrong chat
+function assertCurrentChat(chatTitle){
+	if(!chatTitle || chatTitle==""){	// Shouldn't check against empty string or null
+		console.log("assertCurrentChat: parameter chatTitle is null or empty, which is invalid.");
+		return false;
+	}
+
+	// Current chat title
+	var currentChatTitle = document.querySelector("#main .chat-main .chat-title span").title;
+	if(currentChatTitle.match(chatTitle)){
+		console.log("assertCurrentChat: current title '" + currentChatTitle + "' matches requested '" + chatTitle +"'");
+		return true;
+	}
+
+	return false;	// In any other case, fail
+}
+
+/* This will post a message each `timeInterval` seconds. `messageGenerator` is a function that should return a string,
+	and it's called each time a message should be posted */
+function postAnnoyingMessages(chatTitle, messageGenerator, timeInterval){
+	// Failsafe mechanism - chat title has to be at least 7 letters long to avoid accidental messages
+	var minLength=7;
+	if (chatTitle.length < minLength){
+		console.log("Chat title provided is too short, please provide a title longer than " + minLength + " .");
+		return false;
+	}
+
+	var result = clickTargetChat(chatTitle);	// Enter the chat
+	if(!result){
+		console.log("Couldn't post the message because target chat couldn't be entered.");
+		return false;
+	}
+
+	// Making sure the current chat matches chatTitle to avoid errors
+	if(!assertCurrentChat(chatTitle)){
+		console.log("Current chat doesn't match '" + chatTitle + "', will not post shaming message.");
+		return false;
+	}
+
+	var annoyingMessagesInterval = window.setInterval(function(){
+		if(assertCurrentChat(chatTitle)){	// Still in the right chat
+			var annoyingMessage = messageGenerator();	// Getting the message
+			console.log("Posting the annoying message '" + annoyingMessage + "' to '" + chatTitle +"'");
+			postMessage(annoyingMessage , true/**/);	// Comment/uncomment this to really send messages
+		} else {
+			console.log("Not in chat '" + chatTitle +"' any more, stopping the annoying messages to avoid infinite loops.");
+			window.clearInterval(annoyingMessagesInterval);
+		}
+
+	}, timeInterval);
+
+	return true;
 }
